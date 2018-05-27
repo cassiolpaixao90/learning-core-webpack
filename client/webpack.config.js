@@ -8,6 +8,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let plugins = [];
 
+let SERVICE_URL = JSON.stringify('http://localhost:3000');
+
 plugins.push(new HtmlWebpackPlugin({
     hash: true,
     minify: {
@@ -41,6 +43,7 @@ plugins.push(
 
 if(process.env.NODE_ENV == 'production'){
 
+    SERVICE_URL = JSON.stringify('http://endereco-da-sua-api');
     plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
     plugins.push(new babiliPlugin())
     plugins.push(new optimizeCSSAssetsPlugin({
@@ -53,6 +56,9 @@ if(process.env.NODE_ENV == 'production'){
         canPrint: true
      }));   
 }
+
+plugins.push(new webpack.DefinePlugin({ SERVICE_URL }));
+
 
 module.exports = {
     entry: {
